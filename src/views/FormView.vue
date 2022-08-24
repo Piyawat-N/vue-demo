@@ -29,8 +29,13 @@
             <input class="form-control" type="file" id="formFile" />
           </div>
 
-          <button type="submit" class="btn btn-primary me-3">Add</button>
-          <button type="reset" class="btn btn-primary">Cancel</button>
+          <div v-if="this.product._id">
+            <button type="submit" class="btn btn-primary me-3">Save</button>
+          </div>
+          <div v-else>
+            <button type="submit" class="btn btn-primary me-3">Add</button>
+            <button type="reset" class="btn btn-primary">Cancel</button>
+          </div>
         </div>
       </div>
     </form>
@@ -67,14 +72,18 @@ export default {
       }
 
       let newProduct = {
+        _id: this.product._id,
         title: this.product.title,
         price: this.product.price,
         image: this.product.image,
       };
-      console.log("newProduct:", newProduct);
 
       this.resetInput();
-      this.createProduct(newProduct);
+      if (this.product._id) {
+        this.updateProduct(newProduct);
+      } else {
+        this.createProduct(newProduct);
+      }
     },
     resetInput() {
       this.product.title = null;
@@ -83,7 +92,12 @@ export default {
     },
     async createProduct(newProduct) {
       await this.$store.dispatch("createProduct", newProduct);
-      await this.$store.dispatch("getDataFromAPI");
+      await this.$store.dispatch("getDataFromAPI"); //เพื่อ update ข้อมูล
+      await this.$router.push({ path: "/productlist" });
+    },
+    async updateProduct(newProduct) {
+      await this.$store.dispatch("updateProduct", newProduct);
+      await this.$store.dispatch("getDataFromAPI"); //เพื่อ update ข้อมูล
       await this.$router.push({ path: "/productlist" });
     },
     async getProductById(id) {
@@ -91,8 +105,6 @@ export default {
         this.product = res.data;
       });
     },
-
-    // xxx
   },
 };
 </script>

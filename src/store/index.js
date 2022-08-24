@@ -39,6 +39,13 @@ export default createStore({
           console.log(res.data);
         });
     },
+    async updateProduct(context, newProduct) {
+      await axios
+        .put("http://localhost:3000/products/update", newProduct)
+        .then((res) => {
+          console.log(res.data);
+        });
+    },
     async deleteProduct(context, id) {
       await axios
         .delete("http://localhost:3000/products/delete", {
