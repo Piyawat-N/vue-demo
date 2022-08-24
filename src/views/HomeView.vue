@@ -4,7 +4,7 @@
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-5 g-3">
       <div
         class="col"
-        v-for="(item, index) in this.$store.state.products"
+        v-for="(item, index) in this.products"
         :key="index"
       >
         <div class="card h-100 text-dark bg-light">
@@ -23,7 +23,25 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-  created() {},
+  created() {
+    this.getProducts()
+  },
+  data() {
+    return {
+      products:null
+    };
+  },
+  methods:{
+    async getProducts() {
+      this.$isLoading(true);
+      await axios.get("http://localhost:3000/products").then((res) => {
+        this.products = res.data;
+        this.$isLoading(false);
+      });
+    },
+  }
 };
 </script>

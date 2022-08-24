@@ -28,7 +28,7 @@
 <script>
 export default {
   created() {
-    this.$store.dispatch("getDataFromAPI");
+    
   },
 }
 </script>

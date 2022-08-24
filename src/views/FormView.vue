@@ -1,7 +1,7 @@
 <template>
   <div class="form">
     <h1>Form</h1>
-    <form @submit.prevent="addProduct">
+    <form @submit.prevent="saveProduct">
       <div class="card text-dark bg-light">
         <div class="card-body">
           <div class="mb-3">
@@ -63,7 +63,7 @@ export default {
     }
   },
   methods: {
-    addProduct() {
+    saveProduct() {
       if (!this.product.image) {
         this.product.image = "no-image.jpg";
       }
@@ -78,11 +78,11 @@ export default {
         image: this.product.image,
       };
 
-      this.resetInput();
       if (this.product._id) {
         this.updateProduct(newProduct);
       } else {
         this.createProduct(newProduct);
+        this.resetInput();
       }
     },
     resetInput() {
@@ -90,20 +90,43 @@ export default {
       this.product.price = null;
       this.product.image = null;
     },
+
     async createProduct(newProduct) {
-      await this.$store.dispatch("createProduct", newProduct);
-      await this.$store.dispatch("getDataFromAPI"); //เพื่อ update ข้อมูล
-      await this.$router.push({ path: "/productlist" });
-    },
-    async updateProduct(newProduct) {
-      await this.$store.dispatch("updateProduct", newProduct);
-      await this.$store.dispatch("getDataFromAPI"); //เพื่อ update ข้อมูล
-      await this.$router.push({ path: "/productlist" });
+      this.$isLoading(true);
+      await axios
+        .post("http://localhost:3000/products/create", newProduct)
+        .then((res) => {
+          console.log(res.data);
+          this.$isLoading(false);
+          this.$swal({
+            icon: "success",
+            title: "Created!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
     },
     async getProductById(id) {
+      this.$isLoading(true);
       await axios.get("http://localhost:3000/products/" + id).then((res) => {
         this.product = res.data;
+        this.$isLoading(false);
       });
+    },
+    async updateProduct(newProduct) {
+      this.$isLoading(true);
+      await axios
+        .put("http://localhost:3000/products/update", newProduct)
+        .then((res) => {
+          console.log(res.data);
+          this.$isLoading(false);
+          this.$swal({
+            icon: "success",
+            title: "Updated!",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        });
     },
   },
 };

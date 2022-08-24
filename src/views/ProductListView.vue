@@ -1,7 +1,7 @@
 <template>
-  <div class="productList">
+  <div class="productList" >
     <h1>Product List</h1>
-    <table class="table table-hover table-striped table-bordered align-middle">
+    <table class="table table-hover table-striped table-bordered align-middle" v-if="this.products">
       <thead>
         <tr>
           <th scope="col" class="text-center">#</th>
@@ -12,7 +12,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in this.$store.state.products" :key="index">
+        <tr v-for="(item, index) in this.products" :key="index">
           <th class="text-center" scope="row">{{ index + 1 }}</th>
           <td>{{ item.title }}</td>
           <td class="text-end">{{ item.price.toLocaleString() }}</td>
@@ -31,12 +31,34 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+
 export default {
-  created() {},
+  created() {
+    this.getProducts();
+  },
+  data() {
+    return {
+      products: null,
+    };
+  },
   methods: {
+    async getProducts() {
+      this.$isLoading(true);
+      await axios.get("http://localhost:3000/products").then((res) => {
+        this.products = res.data;
+        this.$isLoading(false);
+      });
+    },
     async deleteProduct(id) {
-      await this.$store.dispatch("deleteProduct", id);
-      await this.$store.dispatch("getDataFromAPI");
+      this.$isLoading(true);
+      await axios
+        .delete("http://localhost:3000/products/delete", { data: { id: id } })
+        .then((res) => {
+          console.log(res.data);
+          this.$isLoading(false);
+          this.getProducts();
+        });
     },
     editProduct(item) {
       console.log(item);
@@ -45,15 +67,8 @@ export default {
         name: "formId",
         params: {
           id: item._id,
-          // _id: item._id,
-          // title: item.title,
-          // price: item.price,
-          // image: item.image,
         },
       });
-
-      // this.$router.push({ name: 'formId', params: { id: item._id }})
-
     },
   },
 };
