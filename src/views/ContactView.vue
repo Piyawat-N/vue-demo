@@ -1,14 +1,7 @@
 <template>
   <div class="contact">
     <h1>Contact</h1>
-    <p>
-      Have a module of JavaScript: <font-awesome-icon :icon="['fab', 'js']" />
-    </p>
-    <p>
-      Have a module of Vue.js: <font-awesome-icon :icon="['fab', 'vuejs']" />
-    </p>
-    <p>
-      Have a module of Vue.js: <font-awesome-icon :icon="['fab', 'twitter']" />
-    </p>
+    <p class="fs-6"><font-awesome-icon :icon="['fa', 'envelope']" /><span class="ms-3">piyawat.nsr@gmail.com</span> </p>
+    <p class="fs-6"><font-awesome-icon :icon="['fa', 'phone']" /><span class="ms-3">0623974519</span> </p>
   </div>
 </template>
