@@ -76,7 +76,7 @@ export default {
     },
     async getProducts() {
       this.$isLoading(true);
-      await axios.get("http://localhost:3000/products").then((res) => {
+      await axios.get("https://node-demo-9.herokuapp.com/products").then((res) => {
         this.products = res.data;
         this.$isLoading(false);
       });
@@ -84,7 +84,7 @@ export default {
     async deleteProduct(id) {
       this.$isLoading(true);
       await axios
-        .delete("http://localhost:3000/products/delete", { data: { id: id } })
+        .delete("https://node-demo-9.herokuapp.com/products/delete", { data: { id: id } })
         .then((res) => {
           console.log(res.data);
           this.$isLoading(false);

@@ -37,7 +37,7 @@ export default {
   methods:{
     async getProducts() {
       this.$isLoading(true);
-      await axios.get("http://localhost:3000/products").then((res) => {
+      await axios.get("https://node-demo-9.herokuapp.com/products").then((res) => {
         this.products = res.data;
         this.$isLoading(false);
       });

@@ -1,5 +1,4 @@
 import { createStore } from "vuex";
-import axios from "axios";
 
 export default createStore({
   state: {
@@ -26,11 +25,6 @@ export default createStore({
     },
     addProduct(context, value) {
       context.commit("addProduct", value);
-    },
-    async getDataFromAPI(context) {
-      await axios.get("http://localhost:3000/products").then((res) => {
-        context.commit("setProducts", res.data);
-      });
     },
 
   },

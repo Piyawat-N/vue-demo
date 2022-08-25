@@ -94,7 +94,7 @@ export default {
     async createProduct(newProduct) {
       this.$isLoading(true);
       await axios
-        .post("http://localhost:3000/products/create", newProduct)
+        .post("https://node-demo-9.herokuapp.com/products/create", newProduct)
         .then((res) => {
           console.log(res.data);
           this.$isLoading(false);
@@ -108,7 +108,7 @@ export default {
     },
     async getProductById(id) {
       this.$isLoading(true);
-      await axios.get("http://localhost:3000/products/" + id).then((res) => {
+      await axios.get("https://node-demo-9.herokuapp.com/products/" + id).then((res) => {
         this.product = res.data;
         this.$isLoading(false);
       });
@@ -116,7 +116,7 @@ export default {
     async updateProduct(newProduct) {
       this.$isLoading(true);
       await axios
-        .put("http://localhost:3000/products/update", newProduct)
+        .put("https://node-demo-9.herokuapp.com/products/update", newProduct)
         .then((res) => {
           console.log(res.data);
           this.$isLoading(false);
