@@ -3,12 +3,11 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     products: [],
-    host1:'http://localhost:3000',
-    host2:'https://node-demo-9.herokuapp.com'
+    host:'http://localhost:3000',
+    // host:'https://node-demo-9.herokuapp.com'
   },
   getters: {
     getProducts: (state) => state.products,
-    getHost: (state) => state.host1,
   },
   mutations: {
     setProducts(state, data) {

@@ -33,7 +33,7 @@ export default {
   methods: {
     async getProducts() {
       this.$isLoading(true);
-      await axios.get(this.$store.state.getHost + "/products").then((res) => {
+      await axios.get(this.$store.state.host + "/products").then((res) => {
         this.products = res.data;
         this.$isLoading(false);
       });

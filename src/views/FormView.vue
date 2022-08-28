@@ -94,7 +94,7 @@ export default {
     async createProduct(newProduct) {
       this.$isLoading(true);
       await axios
-        .post(this.$store.state.getHost + "/products/create", newProduct)
+        .post(this.$store.state.host + "/products/create", newProduct)
         .then((res) => {
           console.log(res.data);
           this.$isLoading(false);
@@ -109,7 +109,7 @@ export default {
     async getProductById(id) {
       this.$isLoading(true);
       await axios
-        .get(this.$store.state.getHost + "/products/" + id)
+        .get(this.$store.state.host + "/products/" + id)
         .then((res) => {
           this.product = res.data;
           this.$isLoading(false);
@@ -118,7 +118,7 @@ export default {
     async updateProduct(newProduct) {
       this.$isLoading(true);
       await axios
-        .put(this.$store.state.getHost + "/products/update", newProduct)
+        .put(this.$store.state.host + "/products/update", newProduct)
         .then((res) => {
           console.log(res.data);
           this.$isLoading(false);

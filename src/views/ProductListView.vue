@@ -75,7 +75,7 @@ export default {
     },
     async getProducts() {
       this.$isLoading(true);
-      await axios.get(this.$store.state.getHost + "/products").then((res) => {
+      await axios.get(this.$store.state.host + "/products").then((res) => {
         this.products = res.data;
         this.$isLoading(false);
       });
@@ -83,7 +83,7 @@ export default {
     async deleteProduct(id) {
       this.$isLoading(true);
       await axios
-        .delete(this.$store.state.getHost + "/products/delete", {
+        .delete(this.$store.state.host + "/products/delete", {
           data: { id: id },
         })
         .then((res) => {
