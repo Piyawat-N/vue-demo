@@ -36,7 +36,6 @@
 <script>
 import axios from "axios";
 
-
 export default {
   created() {
     this.getProducts();
@@ -76,7 +75,7 @@ export default {
     },
     async getProducts() {
       this.$isLoading(true);
-      await axios.get("https://node-demo-9.herokuapp.com/products").then((res) => {
+      await axios.get(this.$store.state.getHost + "/products").then((res) => {
         this.products = res.data;
         this.$isLoading(false);
       });
@@ -84,7 +83,9 @@ export default {
     async deleteProduct(id) {
       this.$isLoading(true);
       await axios
-        .delete("https://node-demo-9.herokuapp.com/products/delete", { data: { id: id } })
+        .delete(this.$store.state.getHost + "/products/delete", {
+          data: { id: id },
+        })
         .then((res) => {
           console.log(res.data);
           this.$isLoading(false);

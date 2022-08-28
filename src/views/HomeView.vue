@@ -2,11 +2,7 @@
   <div class="home">
     <h1>Home</h1>
     <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 row-cols-xl-5 g-3">
-      <div
-        class="col"
-        v-for="(item, index) in this.products"
-        :key="index"
-      >
+      <div class="col" v-for="(item, index) in this.products" :key="index">
         <div class="card h-100 text-dark bg-light">
           <img class="card-img-top" :src="item.image" />
           <div class="card-body">
@@ -27,21 +23,21 @@ import axios from "axios";
 
 export default {
   created() {
-    this.getProducts()
+    this.getProducts();
   },
   data() {
     return {
-      products:null
+      products: null,
     };
   },
-  methods:{
+  methods: {
     async getProducts() {
       this.$isLoading(true);
-      await axios.get("https://node-demo-9.herokuapp.com/products").then((res) => {
+      await axios.get(this.$store.state.getHost + "/products").then((res) => {
         this.products = res.data;
         this.$isLoading(false);
       });
     },
-  }
+  },
 };
 </script>
