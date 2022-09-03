@@ -140,6 +140,7 @@ export default {
       const fd = new FormData();
       fd.append("imagez", this.selectedFile);
 
+      this.$isLoading(true);
       await axios
         .post(this.$store.state.host + "/upload", fd, {
           headers: {
