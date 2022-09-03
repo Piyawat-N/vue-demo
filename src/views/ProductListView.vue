@@ -28,12 +28,12 @@
           <td class="text-center">
             <div class="row">
               <div class="col p-1">
-                <span class="h3" @click="editProduct(item)"
+                <span class="h4" @click="editProduct(item)"
                   ><font-awesome-icon icon="pen-to-square"
                 /></span>
               </div>
               <div class="col p-1">
-                <span class="h3" @click="checkDelete(item._id)"
+                <span class="h4" @click="checkDelete(item._id)"
                   ><font-awesome-icon icon="trash"
                 /></span>
               </div>
