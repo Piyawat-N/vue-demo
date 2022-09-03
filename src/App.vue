@@ -4,7 +4,7 @@
       <ul class="navbar-nav">
         <li class="nav-item">
           <router-link class="navbar-brand" to="/"
-            ><img src="shop.png" style="width: 40px"
+            ><img src="/shop.png" style="width: 40px"
           /></router-link>
         </li>
         <li class="nav-item">
