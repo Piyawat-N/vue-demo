@@ -32,6 +32,7 @@
               type="file"
               id="formFile"
               @change="onFileSelected"
+              ref="myFileInput"
             />
           </div>
           <div class="mb-3">
@@ -125,6 +126,7 @@ export default {
       this.product.price = null;
       this.product.image = null;
       this.product.imageUrl = null;
+      this.$refs.myFileInput.value = '';
     },
 
     onFileSelected(event) {
