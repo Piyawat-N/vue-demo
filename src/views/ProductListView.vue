@@ -19,14 +19,25 @@
           <th class="text-center" scope="row">{{ index + 1 }}</th>
           <td>{{ item.title }}</td>
           <td class="text-end">{{ item.price.toLocaleString() }}</td>
-          <td class="text-center"><img class="h-20" :src="item.image" /></td>
           <td class="text-center">
-            <span class="me-3" @click="editProduct(item)"
-              ><font-awesome-icon icon="pen-to-square"
-            /></span>
-            <span @click="checkDelete(item._id)"
-              ><font-awesome-icon icon="trash"
-            /></span>
+            <img
+              class="h-20"
+              :src="item.imageUrl || 'No_image_available.png'"
+            />
+          </td>
+          <td class="text-center">
+            <div class="row">
+              <div class="col p-1">
+                <span @click="editProduct(item)"
+                  ><font-awesome-icon icon="pen-to-square"
+                /></span>
+              </div>
+              <div class="col p-1">
+                <span @click="checkDelete(item._id)"
+                  ><font-awesome-icon icon="trash"
+                /></span>
+              </div>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -47,8 +58,6 @@ export default {
   },
   methods: {
     editProduct(item) {
-      console.log(item);
-
       this.$router.push({
         name: "formId",
         params: {
@@ -86,8 +95,8 @@ export default {
         .delete(this.$store.state.host + "/products/delete", {
           data: { id: id },
         })
-        .then((res) => {
-          console.log(res.data);
+        .then(() => {
+          // console.log(res.data);
           this.$isLoading(false);
           this.getProducts();
         });

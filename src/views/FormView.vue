@@ -1,6 +1,7 @@
 <template>
   <div class="form">
     <h1>Form</h1>
+
     <form @submit.prevent="saveProduct">
       <div class="card text-dark bg-light">
         <div class="card-body">
@@ -26,7 +27,15 @@
           </div>
           <div class="mb-3">
             <label for="formFile" class="form-label">Image</label>
-            <input class="form-control" type="file" id="formFile" />
+            <input
+              class="form-control"
+              type="file"
+              id="formFile"
+              @change="onFileSelected"
+            />
+          </div>
+          <div class="mb-3">
+            <img :src="product.imageUrl" v-if="product.imageUrl" />
           </div>
 
           <div v-if="this.product._id">
@@ -34,7 +43,9 @@
           </div>
           <div v-else>
             <button type="submit" class="btn btn-primary me-3">Add</button>
-            <button type="reset" class="btn btn-primary">Cancel</button>
+            <button type="reset" class="btn btn-primary" @click="resetInput">
+              Cancel
+            </button>
           </div>
         </div>
       </div>
@@ -50,11 +61,13 @@ export default {
   data() {
     return {
       product: {
-        _id: null,
-        title: "",
+        id: null,
+        title: null,
         price: null,
-        image: "",
+        image: null,
+        imageUrl: null,
       },
+      selectedFile: null,
     };
   },
   created() {
@@ -63,32 +76,68 @@ export default {
     }
   },
   methods: {
-    saveProduct() {
-      if (!this.product.image) {
-        this.product.image = "no-image.jpg";
-      }
-      if (!this.product.price) {
-        this.product.price = 0;
+    async saveProduct() {
+      console.log(this.selectedFile);
+      if (this.selectedFile) {
+        await this.UploadImage();
       }
 
-      let newProduct = {
-        _id: this.product._id,
-        title: this.product.title,
-        price: this.product.price,
-        image: this.product.image,
-      };
+      let newProduct = this.setNewProduct();
 
       if (this.product._id) {
         this.updateProduct(newProduct);
       } else {
-        this.createProduct(newProduct);
-        this.resetInput();
+        await this.createProduct(newProduct);
+        this.resetInput()
+        // this.$router.push({
+        //   name: "formId",
+        //   params: {
+        //     id: this.product.id,
+        //   },
+        // });
       }
+    },
+    setNewProduct() {
+      let newProduct = {
+        id: this.product.id,
+        title: this.product.title || "",
+        price: this.product.price || 0,
+        image: this.product.image || "",
+        imageUrl: this.product.imageUrl || "",
+      };
+      return newProduct;
     },
     resetInput() {
       this.product.title = null;
       this.product.price = null;
       this.product.image = null;
+      this.product.imageUrl = null;
+    },
+
+    onFileSelected(event) {
+      if (event.target.files[0]) {
+        this.selectedFile = event.target.files[0];
+        this.product.imageUrl = URL.createObjectURL(this.selectedFile); // preview image
+      } else {
+        this.product.imageUrl = null;
+      }
+    },
+
+    async UploadImage() {
+      const fd = new FormData();
+      fd.append("imagez", this.selectedFile);
+
+      await axios
+        .post(this.$store.state.host + "/upload", fd, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((res) => {
+          this.product.image = res.data.filename; //เก็บชื่อรูปที่มาจากหลังบ้าน
+          this.product.imageUrl =
+            this.$store.state.host + "/image/" + res.data.filename; // เก็บ url รูป
+        });
     },
 
     async createProduct(newProduct) {
@@ -96,7 +145,8 @@ export default {
       await axios
         .post(this.$store.state.host + "/products/create", newProduct)
         .then((res) => {
-          console.log(res.data);
+          // console.log(res.data);
+          this.product.id = res.data;
           this.$isLoading(false);
           this.$swal({
             icon: "success",
@@ -112,6 +162,7 @@ export default {
         .get(this.$store.state.host + "/products/" + id)
         .then((res) => {
           this.product = res.data;
+          this.product.id = res.data._id;
           this.$isLoading(false);
         });
     },
@@ -133,3 +184,9 @@ export default {
   },
 };
 </script>
+<style scoped>
+img {
+  max-width: 100%;
+  max-height: 200px;
+}
+</style>
