@@ -23,7 +23,7 @@ createApp(App)
   .use(store)
   .use(router)
   .use(Loading, {
-    bg: "#0007",
+    bg: "#0009",
     slot: `<div></div>`,
   })
   .use(VueSweetalert2)
