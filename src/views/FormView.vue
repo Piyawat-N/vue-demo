@@ -71,6 +71,18 @@ export default {
     };
   },
   created() {
+    this.$watch(
+      // ติดตามเวลา param เปลี่ยน
+      () => this.$route.params,
+      () => {
+        // console.log("this.$route.params.id = ", this.$route.params.id);
+        this.resetInput();
+        if (this.$route.params.id) {
+          this.getProductById(this.$route.params.id);
+        }
+      }
+    );
+
     if (this.$route.params.id) {
       this.getProductById(this.$route.params.id);
     }
@@ -88,7 +100,7 @@ export default {
         this.updateProduct(newProduct);
       } else {
         await this.createProduct(newProduct);
-        this.resetInput()
+        this.resetInput();
         // this.$router.push({
         //   name: "formId",
         //   params: {
