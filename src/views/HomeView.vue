@@ -5,6 +5,7 @@
       <div class="col" v-for="(item, index) in this.products" :key="index">
         <div class="card h-100 text-dark bg-light">
           <img class="card-img-top" :src="item.imageUrl || 'No_image_available.png'" />
+          <!-- <img class="card-img-top" :src="item.imageUrl || 'No_image_available.png'" @error="$event.target.src='No_image_available.png'" /> -->
           <div class="card-body">
             <!-- <div class="card-body" style="height: 7rem;"> -->
             <p class="card-text">{{ item.title }}</p>
@@ -41,5 +42,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+/* img{
+  max-height: 100 px;
+  max-width :500 px;
+} */
+</style>
 
 
