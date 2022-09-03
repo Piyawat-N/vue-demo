@@ -38,7 +38,7 @@
             <img :src="product.imageUrl" v-if="product.imageUrl" />
           </div>
 
-          <div v-if="this.product._id">
+          <div v-if="this.product.id">
             <button type="submit" class="btn btn-primary me-3">Save</button>
           </div>
           <div v-else>
@@ -120,6 +120,7 @@ export default {
       return newProduct;
     },
     resetInput() {
+      this.product.id = null;
       this.product.title = null;
       this.product.price = null;
       this.product.image = null;
