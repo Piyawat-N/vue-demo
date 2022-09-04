@@ -22,7 +22,7 @@
           <td class="text-center">
             <img
               class="h-20"
-              :src="item.imageUrl || 'No_image_available.png'"
+              :src="item.imageUrl || 'No_image_available.png'" @error="$event.target.src='No_image_available.png'" 
             />
           </td>
           <td class="text-center">
